@@ -23,6 +23,41 @@ var io='IntersectionObserver' in window&&!RM?new IntersectionObserver(function(e
 var g=new Map();
 $$('.rv').forEach(function(el){var p=el.parentElement,n=g.get(p)||0;g.set(p,n+1);if(io){el.style.transitionDelay=Math.min(n,7)*90+'ms';io.observe(el)}else el.classList.add('in')});
 
+// las tijeras: bajan contigo, cortan la línea entre apartados y explican cada uno
+var TJ=$('[data-tijeras]');
+if(TJ&&!RM){
+ var rot=$('.tj-rot',TJ),h1=$('.h1',TJ),h2=$('.h2',TJ),tn=$('[data-tn]',TJ),tt=$('[data-tt]',TJ),td=$('[data-td]',TJ);
+ var pasos=$$('[data-paso]'),cortes=pasos.map(function(sec){return $('[data-corte]',sec)}),Y=[],X=[],act=-1,tmr=0,ult=scrollY,giro=0;
+ function medir(){
+  var w=document.documentElement.clientWidth,wr=$('.wrap').getBoundingClientRect(),mg=Math.max(16,wr.left);
+  var s=Math.max(54,Math.min(118,mg*1.15));TJ.style.setProperty('--s',s+'px');
+  var izq=Math.max(s*.42,mg/2),der=w-izq;
+  Y=pasos.map(function(sec){return sec.getBoundingClientRect().top+scrollY});
+  X=pasos.map(function(_,i){return i%2?der:izq});
+  cortes.forEach(function(c,i){if(c)c.classList.toggle('inv',X[i-1]>X[i])});
+  pinta()}
+ function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+ function pinta(){
+  var vh=innerHeight,a=scrollY+vh*.5,T=Math.min(170,vh*.22),i=0;
+  while(i<Y.length-1&&a>=Y[i+1]-T)i++;
+  var x=X[i],ang=90,y=vh*.5;
+  // cruce: la línea de corte del apartado i está en Y[i]
+  if(i>0&&a<Y[i]+T){var t=Math.max(0,Math.min(1,(a-(Y[i]-T))/(2*T))),e=ease(t);x=X[i-1]+(X[i]-X[i-1])*e;
+   var dir=X[i]>X[i-1]?0:180;ang=t<.15?90+(dir-90+(dir===180?0:0))*(t/.15):t>.85?dir+(90-dir)*((t-.85)/.15):dir;
+   y=vh*.5+T*(1-2*t)*Math.sin(Math.PI*t);TJ.classList.add('cruza')}else TJ.classList.remove('cruza')
+  cortes.forEach(function(c,k){if(!c)return;var cc=k<i?1:k===i?Math.max(0,Math.min(1,(a-(Y[k]-T))/(2*T))):0;c.style.setProperty('--c',cc.toFixed(3))});
+  var d=scrollY-ult;ult=scrollY;giro+=Math.abs(d);var ab=4+16*Math.abs(Math.sin(giro/42));
+  h1.setAttribute('transform','rotate('+(-ab)+')');h2.setAttribute('transform','rotate('+ab+')');
+  TJ.style.transform='translate('+x+'px,'+y+'px)';rot.style.transform='rotate('+ang+'deg)';
+  TJ.classList.toggle('der',x>document.documentElement.clientWidth/2);
+  if(i!==act){act=i;var p=(pasos[i].dataset.paso||'').split('|');tn.textContent=('0'+(i+1)).slice(-2)+' / '+('0'+pasos.length).slice(-2);tt.textContent=p[0];td.textContent=p[1]||'';
+   TJ.classList.remove('nuevo');void TJ.offsetWidth;TJ.classList.add('nuevo')}
+  TJ.classList.add('ver');clearTimeout(tmr);tmr=setTimeout(function(){TJ.classList.remove('ver')},2600)}
+ var rq=0;addEventListener('scroll',function(){if(!rq)rq=requestAnimationFrame(function(){rq=0;pinta()})},{passive:true});
+ addEventListener('resize',medir);addEventListener('load',medir);medir();
+ setTimeout(medir,1500);
+}
+
 // galería: flechas y arrastre
 var gal=$('[data-gal]');
 if(gal){
