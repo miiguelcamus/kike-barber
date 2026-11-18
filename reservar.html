@@ -1,0 +1,52 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reservar cita · Kike barber shop, Ponferrada</title><meta name="description" content="Reserva tu cita en Kike barber shop: elige servicio, día y hora y te confirma por WhatsApp."><meta name="theme-color" content="#141110">
+<meta property="og:title" content="Reservar cita · Kike barber shop, Ponferrada"><meta property="og:description" content="Reserva tu cita en Kike barber shop: elige servicio, día y hora y te confirma por WhatsApp."><meta property="og:image" content="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9RfuHprUc3rnGcbM1A3zyf-CvxKDJDVWgKjWtLr16iZ3Kpk7zFpc_dN17jgUL-Ly8LM2PEFmnRR-L3FlOThOI7XkKhNLvNIBvD1MApnAXcPjlcRmmvzC1u2RWUtA8MP3RVNOuKhHUnoWady=w1200-k-no">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css?v=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23141110'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='20' text-anchor='middle' fill='%23F2EADF'%3EK%3C/text%3E%3C/svg%3E">
+</head><body class="p-reservar">
+<header class="top"><div class="wrap tin">
+ <a class="logo" href="index.html?v=1" aria-label="Kike barber shop, inicio"><span class="lg-k">KIKE</span><span class="lg-b">barber<br>shop</span></a>
+ <nav class="nav" aria-label="Principal"><a href="index.html#cortes?v=1">Cortes</a><a href="index.html#servicios?v=1">Servicios</a><a href="index.html#opiniones?v=1">Opiniones</a><a href="index.html#visitanos?v=1">Visítanos</a></nav>
+ <a class="btn rojo hcta" href="reservar.html?v=1"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g></svg> Reservar cita</a>
+</div></header>
+<main>
+<section class="ph"><div class="suelo s3" aria-hidden="true"></div><div class="wrap">
+ <p class="kick rv">Cita online</p><h1 class="rv">Reserva<br><span class="rojo-t">tu hueco.</span></h1>
+ <p class="lead rv">Elige servicio, día y hora. Se envía por WhatsApp con todo escrito y Kike te confirma.</p>
+</div></section>
+<section class="sec bk-s"><div class="wrap bk">
+ <form class="bf" data-form onsubmit="return false">
+  <fieldset class="rv"><legend><span>1</span>Servicio</legend>
+   <div class="ops" data-svc><button type="button" class="opt" data-v="Corte de pelo" data-p="12"><b>Corte de pelo</b><small>Tijera y máquina, a tu gusto</small><em>12 €</em></button><button type="button" class="opt" data-v="Degradado" data-p="14"><b>Degradado</b><small>Bajo, medio o alto, con acabado a navaja</small><em>14 €</em></button><button type="button" class="opt" data-v="Arreglo de barba" data-p="8"><b>Arreglo de barba</b><small>Perfilado, rebaje y cuidado</small><em>8 €</em></button><button type="button" class="opt" data-v="Corte + barba" data-p="18"><b>Corte + barba</b><small>El completo, en una sola cita</small><em>18 €</em></button><button type="button" class="opt" data-v="Diseño o rayas" data-p="+3"><b>Diseño o rayas</b><small>Líneas y dibujos a máquina</small><em>+3 €</em></button><button type="button" class="opt" data-v="Corte infantil" data-p="10"><b>Corte infantil</b><small>Con paciencia y sin prisas</small><em>10 €</em></button></div>
+   <p class="nota-p">Precios de ejemplo, pendientes de confirmar con Kike.</p></fieldset>
+  <fieldset class="rv"><legend><span>2</span>Día y hora</legend>
+   <div class="days" data-days></div><div class="slots" data-slots><p class="empty">Elige un día para ver las horas libres.</p></div></fieldset>
+  <fieldset class="rv"><legend><span>3</span>Tus datos</legend>
+   <div class="fl2"><label>Nombre<input name="n" autocomplete="name"></label><label>Teléfono<input name="t" type="tel" inputmode="tel" autocomplete="tel"></label></div>
+   <label>¿Alguna indicación? <small>(opcional)</small><textarea name="m" rows="2" placeholder="Por ejemplo: degradado bajo y arreglar la barba"></textarea></label></fieldset>
+ </form>
+ <aside class="tk-w rv">
+  <div class="tk">
+   <div class="tk-top"><span class="lg-k">KIKE</span><span class="tk-l">Tu turno</span></div>
+   <div class="tk-dia"><b data-cd>--</b><div><span data-cw>Elige un día</span><span data-cm></span></div></div>
+   <div class="tk-hora" data-ch>--:--</div>
+   <dl><div><dt>Servicio</dt><dd data-s="v">—</dd></div><div><dt>Nombre</dt><dd data-s="n">—</dd></div><div><dt>Precio orientativo</dt><dd data-s="p">—</dd></div></dl>
+   <div class="tk-pie"><span>C. Eladia Baylina, 38 · Ponferrada</span></div>
+  </div>
+  <button class="btn rojo full" data-send disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3c-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg> Reservar por WhatsApp</button>
+  <p class="mu sm">Se abre WhatsApp con la cita escrita. Tú le das a enviar y Kike te confirma el hueco. También puedes llamar al <a href="tel:+34611256626">611 25 66 26</a>.</p>
+ </aside>
+</div></section>
+</main>
+<footer class="pie"><div class="wrap">
+ <div class="pie-g">
+  <a class="logo" href="index.html?v=1"><span class="lg-k">KIKE</span><span class="lg-b">barber<br>shop</span></a>
+  <div><h4>Dónde</h4><p><a href="https://www.google.com/maps/search/?api=1&query=Kike+barber+shop+Ponferrada" target="_blank" rel="noopener">C. Eladia Baylina, 38<br>24400 Ponferrada, León</a></p></div>
+  <div><h4>Horario</h4><p>Lunes a sábado<br>10:00–14:00 · 16:00–20:00<br>Domingo 10:00–15:00</p></div>
+  <div><h4>Cita</h4><p><a href="tel:+34611256626">611 25 66 26</a><br><a href="https://wa.me/34611256626" target="_blank" rel="noopener">WhatsApp</a></p></div>
+ </div>
+ <div class="pie-b"><span>© 2026 Kike barber shop · Ponferrada</span><span>Propuesta de diseño web</span></div>
+</div></footer>
+<script>window.KK_HOURS=[[["10:00", "14:00"], ["16:00", "20:00"]], [["10:00", "14:00"], ["16:00", "20:00"]], [["10:00", "14:00"], ["16:00", "20:00"]], [["10:00", "14:00"], ["16:00", "20:00"]], [["10:00", "14:00"], ["16:00", "20:00"]], [["10:00", "14:00"], ["16:00", "20:00"]], [["10:00", "15:00"]]];window.KK_WA="https://wa.me/34611256626";</script>
+<script src="app.js?v=1"></script></body></html>
