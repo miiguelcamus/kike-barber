@@ -4,6 +4,9 @@ var H=window.KK_HOURS||[],RM=matchMedia('(prefers-reduced-motion: reduce)').matc
 
 // cabecera
 var top=$('.top');function sc(){top.classList.toggle('sc',scrollY>30)}sc();addEventListener('scroll',sc,{passive:true});
+var bg=$('.burger'),mm=$('.mm');
+if(bg)bg.addEventListener('click',function(){var o=bg.getAttribute('aria-expanded')!=='true';bg.setAttribute('aria-expanded',o);mm.classList.toggle('on',o);mm.setAttribute('aria-hidden',!o);document.body.style.overflow=o?'hidden':'';top.classList.toggle('sc',o||scrollY>30)});
+$$('.mm a').forEach(function(a){a.addEventListener('click',function(){if(bg.getAttribute('aria-expanded')==='true')bg.click()})});
 
 // abierto ahora (lunes = 0)
 function mins(t){var p=t.split(':');return +p[0]*60+ +p[1]}
