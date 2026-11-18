@@ -73,7 +73,7 @@ h2{font-size:clamp(52px,7vw,104px)}
 .hero .lead{color:rgba(242,234,223,.78);margin-bottom:34px}
 .hfoto{position:relative;justify-self:center;width:min(430px,100%)}
 .marco{position:relative;aspect-ratio:3/4;border-radius:999px 999px 10px 10px;overflow:hidden;box-shadow:0 0 0 8px var(--negro),0 0 0 11px rgba(242,234,223,.85),0 0 60px 10px rgba(242,234,223,.18)}
-.marco img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.4s var(--ease)}
+.marco img{width:100%;height:100%;object-fit:cover;object-position:50% 70%;transform:scale(1.04);transition:transform 1.4s var(--ease)}
 .hfoto.in .marco img{transform:none}
 .sello{position:absolute;left:-58px;bottom:40px;width:150px;height:150px;display:grid;place-items:center;border-radius:50%;background:var(--rojo);color:#fff;box-shadow:0 20px 40px -10px rgba(0,0,0,.6)}
 .sello svg{position:absolute;inset:0;width:100%;height:100%;animation:rueda 22s linear infinite}
@@ -102,7 +102,7 @@ h2{font-size:clamp(52px,7vw,104px)}
 .gal::-webkit-scrollbar{display:none}
 .gal.drag{cursor:grabbing;scroll-snap-type:none}
 .gi{flex:none;width:clamp(240px,26vw,340px);scroll-snap-align:start;position:relative}
-.gi img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;filter:saturate(.92) contrast(1.04);transition:transform .6s var(--ease),filter .4s;pointer-events:none}
+.gi img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 85%;border-radius:6px;filter:saturate(.92) contrast(1.04);transition:transform .6s var(--ease),filter .4s;pointer-events:none}
 .gi:hover img{filter:saturate(1.05) contrast(1.06)}
 .gi figcaption{display:flex;align-items:baseline;gap:12px;margin-top:14px;font:800 24px/1 var(--d);text-transform:uppercase}
 .gi figcaption span{font:700 13px/1 var(--b);color:var(--rojo)}
