@@ -351,8 +351,8 @@ body{background:var(--crema)}
 .marco{box-shadow:0 0 0 8px var(--crema),0 0 0 10px var(--tinta),0 40px 70px -30px rgba(23,17,15,.55)}
 .flot{position:absolute;width:42%;aspect-ratio:4/5;border-radius:6px;overflow:hidden;box-shadow:0 0 0 6px #fff,0 26px 46px -18px rgba(23,17,15,.5);z-index:2}
 .flot img{width:100%;height:100%;object-fit:cover;object-position:50% 100%}
-.fl1{left:-34%;top:6%;transform:rotate(-7deg);animation:flota1 7s ease-in-out infinite}
-.fl2{right:-30%;bottom:-4%;transform:rotate(6deg);animation:flota2 8s ease-in-out infinite}
+.flot.fl1{left:-34%;top:6%;transform:rotate(-7deg);animation:flota1 7s ease-in-out infinite}
+.flot.fl2{right:-30%;bottom:-4%;transform:rotate(6deg);animation:flota2 8s ease-in-out infinite}
 @keyframes flota1{50%{transform:rotate(-5deg) translateY(-12px)}}
 @keyframes flota2{50%{transform:rotate(8deg) translateY(-10px)}}
 .sello{left:auto;right:-26px;top:-30px;bottom:auto;z-index:3}
@@ -398,7 +398,7 @@ body{background:var(--crema)}
  .logo.vidrio{padding:8px 13px}
  .hero{padding-top:110px}
  .hfoto{width:58%}
- .fl1{left:-40%}.fl2{right:-36%}
+ .flot.fl1{left:-40%}.flot.fl2{right:-36%}
  .sello{right:-30px;top:-34px}
  .hg{padding-bottom:110px}
  .lg{grid-template-columns:1fr}
