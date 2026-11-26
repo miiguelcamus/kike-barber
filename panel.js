@@ -178,6 +178,12 @@ $('[data-cal]').addEventListener('click',function(e){var b=e.target.closest('[da
 function rango(){if(!selA)return [];var r=[],b=selB||selA;for(var d=selA;d<=b;d=add(d,1))r.push(d);return r}
 var modo='cerrar',otras=null;
 function manTar(dia,cual){var t=ED.horario[ws(dia)]||[];return t.filter(function(r){return cual==='m'?mins(r[0])<840:mins(r[0])>=840})}
+// horario normal de ese día menos las horas que cierra
+function resta(abiertos,cerradas){var r=abiertos.map(function(x){return [mins(x[0]),mins(x[1])]});
+ cerradas.forEach(function(c){var a=mins(c[0]),b=mins(c[1]),n=[];r.forEach(function(x){if(b<=x[0]||a>=x[1]){n.push(x);return}if(a>x[0])n.push([x[0],a]);if(b<x[1])n.push([b,x[1]])});r=n});
+ return r.filter(function(x){return x[1]-x[0]>=15}).map(function(x){return [hhmm(x[0]),hhmm(x[1])]})}
+function nuevoHorario(d){return modo==='otras'?resta(ED.horario[ws(d)]||[],otras||[]):manTar(d,modo)}
+function dentroDe(h,tr){var m=mins(h);return tr.some(function(r){return m>=mins(r[0])&&m<mins(r[1])})}
 function pintaSel(){
  var el=$('[data-sel]');if(!selA){el.hidden=true;return}el.hidden=false;
  var r=rango(),b=selB||selA,todoCerr=r.every(function(d){return cierreDe(ED,d)}),cambiado=r.some(function(d){return cierreDe(ED,d)||espDe(ED,d)}),cs=activas().filter(function(x){return x.dia>=selA&&x.dia<=b});
@@ -187,24 +193,25 @@ function pintaSel(){
  if(!selB&&uno)h+='<p class="ayuda">¿Son varios días seguidos? Toca ahora el último.</p>';
  if(todoCerr){h+='<div class="sel-b"><button class="b b-negro" data-normal>Volver a abrir '+(uno?'este día':'estos días')+'</button><button class="b b-claro" data-quitasel>Cancelar</button></div>'}
  else{
-  var M=[['cerrar','Cerrar todo el día'],['m','Solo por la mañana'],['t','Solo por la tarde'],['otras','Otras horas']];
+  var M=[['cerrar','Cerrar todo el día'],['m','Solo por la mañana'],['t','Solo por la tarde'],['otras','Cierro unas horas']];
   h+='<div class="modos" role="radiogroup" aria-label="Qué hacer esos días">'+M.map(function(m){return '<button type="button" role="radio" aria-checked="'+(modo===m[0])+'" class="modo'+(modo===m[0]?' on':'')+'" data-modo="'+m[0]+'">'+m[1]+'</button>'}).join('')+'</div>';
   if(modo==='cerrar'){
    h+='<div class="chips">'+MOTIVOS.map(function(m){return '<button type="button" class="chip'+(m===motSel?' on':'')+'" data-mot="'+m+'">'+m+'</button>'}).join('')+'<input class="chip-in" data-motx maxlength="60" placeholder="Otro motivo" value="'+(MOTIVOS.indexOf(motSel)<0?esc(motSel):'')+'"></div>'+
     '<div class="sel-b"><button class="b b-rojo" data-cerrar-dias>Cerrar '+(uno?'este día':'estos '+r.length+' días')+'</button>'+(cambiado?'<button class="b b-claro" data-normal>Volver al horario normal</button>':'')+'<button class="b b-claro" data-quitasel>Cancelar</button></div>'}
-  else if(modo==='m'||modo==='t'){
-   var vistos={};r.forEach(function(d){var k=tramosTxt(manTar(d,modo));(vistos[k]=vistos[k]||[]).push(d)});
-   var ks=Object.keys(vistos);
-   h+='<p class="sel-prev">'+(ks.length===1?(ks[0]==='Cerrado'?'Ese horario no tiene '+(modo==='m'?'mañana':'tarde')+': el día quedaría cerrado.':'Abrirá de '+ks[0]+'.'):ks.map(function(k){return '<span>'+vistos[k].map(function(d){return DC[ws(d)]+' '+pd(d).getDate()}).join(', ')+': '+(k==='Cerrado'?'cerrado':k)+'</span>'}).join(''))+'</p>'+
-    '<div class="sel-b"><button class="b b-negro" data-aplica>Guardar '+(modo==='m'?'solo mañana':'solo tarde')+'</button>'+(cambiado?'<button class="b b-claro" data-normal>Volver al horario normal</button>':'')+'<button class="b b-claro" data-quitasel>Cancelar</button></div>'}
   else{
-   if(!otras){var e2=espDe(ED,selA);otras=JSON.parse(JSON.stringify(e2&&e2.tramos.length?e2.tramos:(ED.horario[ws(selA)]||[]).length?ED.horario[ws(selA)]:[['10:00','14:00']]))}
-   h+='<div class="tr tr-o">'+otras.map(function(t,j){return '<span class="tm"><input type="time" step="900" value="'+('0'+t[0]).slice(-5)+'" data-ot="'+j+'-0" aria-label="Tramo '+(j+1)+', desde"><i>–</i><input type="time" step="900" value="'+('0'+t[1]).slice(-5)+'" data-ot="'+j+'-1" aria-label="Tramo '+(j+1)+', hasta">'+(otras.length>1?'<button type="button" data-oq="'+j+'" aria-label="Quitar tramo">×</button>':'')+'</span>'}).join('')+(otras.length<3?'<button type="button" class="b b-sm b-claro" data-om>+ Otro tramo</button>':'')+'</div>'+
-    '<p class="ayuda">Por ejemplo, de 10:00 a 12:00 y de 17:00 a 20:00.</p>'+
-    '<div class="sel-b"><button class="b b-negro" data-aplica>Guardar estas horas</button>'+(cambiado?'<button class="b b-claro" data-normal>Volver al horario normal</button>':'')+'<button class="b b-claro" data-quitasel>Cancelar</button></div>'}
+   if(modo==='otras'){
+    if(!otras)otras=[['12:00','13:00']];
+    h+='<p class="ayuda" style="margin:0 0 8px">¿De qué hora a qué hora cierras? El resto del día sigue abierto.</p>'+
+     '<div class="tr tr-o">'+otras.map(function(t,j){return '<span class="tm"><span class="tm-l">Cierro de</span><input type="time" step="900" value="'+('0'+t[0]).slice(-5)+'" data-ot="'+j+'-0" aria-label="Cierro desde"><i>a</i><input type="time" step="900" value="'+('0'+t[1]).slice(-5)+'" data-ot="'+j+'-1" aria-label="Cierro hasta">'+(otras.length>1?'<button type="button" data-oq="'+j+'" aria-label="Quitar">×</button>':'')+'</span>'}).join('')+(otras.length<3?'<button type="button" class="b b-sm b-claro" data-om>+ Cerrar otro rato</button>':'')+'</div>'}
+   var vistos={};r.forEach(function(d){var k=tramosTxt(nuevoHorario(d));(vistos[k]=vistos[k]||[]).push(d)});
+   var ks=Object.keys(vistos);
+   h+='<p class="sel-prev">'+(ks.length===1?(ks[0]==='Cerrado'?(modo==='otras'?'Con eso no queda ninguna hora abierta: el día quedaría cerrado.':'Ese horario no tiene '+(modo==='m'?'mañana':'tarde')+': el día quedaría cerrado.'):'La web dará citas de '+ks[0]+'.'):ks.map(function(k){return '<span>'+vistos[k].map(function(d){return DC[ws(d)]+' '+pd(d).getDate()}).join(', ')+': '+(k==='Cerrado'?'cerrado':'de '+k)+'</span>'}).join(''))+'</p>'+
+    '<div class="sel-b"><button class="b b-negro" data-aplica>'+(modo==='m'?'Guardar solo mañana':modo==='t'?'Guardar solo tarde':'Cerrar esas horas')+'</button>'+(cambiado?'<button class="b b-claro" data-normal>Volver al horario normal</button>':'')+'<button class="b b-claro" data-quitasel>Cancelar</button></div>';
+   cs=cs.filter(function(x){return !dentroDe(x.hora,nuevoHorario(x.dia))});
+  }
  }
- if(cs.length){var txt=modo==='cerrar'?'Al cerrar no se borran: avísales para cambiarlas.':'Si alguna queda fuera de las nuevas horas, avísale para cambiarla.';
-  h+='<div class="sel-w"><b>'+(cs.length===1?'Hay 1 cita':'Hay '+cs.length+' citas')+' esos días.</b> '+txt+'<ul>'+cs.map(function(x){var w=wa(x.telefono,'Hola '+nom1(x.nombre)+', soy Kike. El '+largo(x.dia)+' cambio el horario. ¿Te cambio la cita de las '+x.hora+' a otra hora u otro día?');
+ if(cs.length){var txt=modo==='cerrar'?'Al cerrar no se borran: avísales para cambiarlas.':'No se borran: avísales para cambiarlas de hora.';
+  h+='<div class="sel-w"><b>'+(modo==='cerrar'?(cs.length===1?'Hay 1 cita':'Hay '+cs.length+' citas')+' esos días.':(cs.length===1?'Hay 1 cita':'Hay '+cs.length+' citas')+' a horas que cierras.')+'</b> '+txt+'<ul>'+cs.map(function(x){var w=wa(x.telefono,'Hola '+nom1(x.nombre)+', soy Kike. El '+largo(x.dia)+' cambio el horario. ¿Te cambio la cita de las '+x.hora+' a otra hora u otro día?');
   return '<li><span>'+corto(x.dia)+' '+x.hora+' · '+esc(x.nombre)+'</span>'+(w?'<a href="'+w+'" target="_blank" rel="noopener">Avisar por WhatsApp</a>':'')+'</li>'}).join('')+'</ul></div>'}
  el.innerHTML=h;
 }
@@ -212,20 +219,19 @@ $('[data-sel]').addEventListener('click',function(e){var t=e.target;
  if(t.closest('[data-modo]')){modo=t.closest('[data-modo]').dataset.modo;otras=null;pintaSel();return}
  if(t.closest('[data-mot]')){motSel=t.closest('[data-mot]').dataset.mot;$$('[data-mot]').forEach(function(x){x.classList.toggle('on',x.dataset.mot===motSel)});$('[data-motx]').value='';return}
  if(t.closest('[data-quitasel]')){selA=selB=null;otras=null;pintaCal();pintaSel();return}
- if(t.closest('[data-om]')){var u=otras[otras.length-1],f=u?Math.min(mins(u[1])+60,1320):600;otras.push([hhmm(f),hhmm(Math.min(f+120,1425))]);pintaSel();return}
+ if(t.closest('[data-om]')){var u=otras[otras.length-1],f=u?Math.min(mins(u[1])+120,1260):720;otras.push([hhmm(f),hhmm(Math.min(f+60,1425))]);pintaSel();return}
  if(t.closest('[data-oq]')){otras.splice(+t.closest('[data-oq]').dataset.oq,1);pintaSel();return}
  var b=selB||selA;
  if(t.closest('[data-cerrar-dias]')){var mx=$('[data-motx]').value.trim(),mot=mx||motSel;
   quitaDias(selA,b);ED.cierres.push({id:'n'+Date.now().toString(36),desde:selA,hasta:b,motivo:mot});
   var m1=(selA===b?'Día cerrado':'Días cerrados')+'. La web ya no deja pedir cita.';selA=selB=null;pintaDisp();guardaParte('dias',m1);return}
  if(t.closest('[data-aplica]')){
-  if(modo==='otras'){var mal=otras.some(function(r){return !r[0]||!r[1]||mins(r[0])>=mins(r[1])});if(mal||!otras.length){aviso('Revisa las horas: cada tramo tiene que empezar antes de terminar.');return}}
+  if(modo==='otras'){var mal=otras.some(function(r){return !r[0]||!r[1]||mins(r[0])>=mins(r[1])});if(mal||!otras.length){aviso('Revisa las horas: el cierre tiene que empezar antes de terminar.');return}}
   var r=rango();quitaDias(selA,b);
-  if(modo==='otras')ED.especiales.push({id:'e'+Date.now().toString(36),desde:selA,hasta:b,tramos:otras.map(function(x){return [x[0].replace(/^0/,''),x[1].replace(/^0/,'')]}).sort(function(x,y){return mins(x[0])-mins(y[0])})});
-  else r.forEach(function(d,i){ED.especiales.push({id:'e'+Date.now().toString(36)+i,desde:d,hasta:d,tramos:manTar(d,modo)})});
+  r.forEach(function(d,i){ED.especiales.push({id:'e'+Date.now().toString(36)+i,desde:d,hasta:d,tramos:nuevoHorario(d)})});
   selA=selB=null;otras=null;pintaDisp();guardaParte('dias','Guardado. La web solo dará citas en esas horas.');return}
  if(t.closest('[data-normal]')){quitaDias(selA,b);selA=selB=null;otras=null;pintaDisp();guardaParte('dias','Listo. Vuelve a su horario normal en la web.')}});
-$('[data-sel]').addEventListener('change',function(e){var o=e.target.closest('[data-ot]');if(!o||!o.value)return;var p=o.dataset.ot.split('-');otras[+p[0]][+p[1]]=o.value});
+$('[data-sel]').addEventListener('change',function(e){var o=e.target.closest('[data-ot]');if(!o||!o.value)return;var p=o.dataset.ot.split('-');otras[+p[0]][+p[1]]=o.value.replace(/^0/,'');pintaSel()});
 $('[data-sel]').addEventListener('input',function(e){if(e.target.matches('[data-motx]')&&e.target.value.trim()){motSel=e.target.value.trim();$$('[data-mot]').forEach(function(x){x.classList.remove('on')})}});
 function recorta(l,a,b){var n=[];(l||[]).forEach(function(x){
  if(x.hasta<a||x.desde>b){n.push(x);return}
