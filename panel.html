@@ -2,7 +2,7 @@
 <title>Panel · Kike barber shop</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#F2EADF">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="panel.css?v=2">
+<link rel="stylesheet" href="panel.css?v=3">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23141110'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='20' text-anchor='middle' fill='%23F2EADF'%3EK%3C/text%3E%3C/svg%3E">
 </head><body>
 
@@ -56,7 +56,7 @@
    <div class="card">
     <div class="ch"><h2 data-sem-t>Esta semana</h2>
      <div class="nav-s"><button class="b b-sm" data-sem="-1" aria-label="Semana anterior">‹</button><button class="b b-sm" data-sem="0">Hoy</button><button class="b b-sm" data-sem="1" aria-label="Semana siguiente">›</button></div></div>
-    <div class="ley"><span class="e-Pendiente">Pendiente</span><span class="e-Confirmada">Confirmada</span><span class="e-Hecha">Hecha</span><span class="ley-c">Cerrado</span><span class="ley-b">Hora bloqueada</span></div>
+    <div class="ley"><span class="e-Pendiente">Pendiente</span><span class="e-Confirmada">Confirmada</span><span class="e-Hecha">Hecha</span><span class="ley-c">Cerrado</span><span class="ley-b">Hora quitada</span></div>
     <div class="ag" data-ag></div>
     <p class="nota">Toca una cita para verla o cambiarla. Toca un hueco libre para apuntar una cita.</p>
    </div>
@@ -64,28 +64,22 @@
 
   <!-- DÍAS Y HORARIO -->
   <section class="tab" data-p="disp">
-   <div class="guardar" data-gbar hidden><span>Tienes cambios sin guardar.</span><div><button class="b b-sm b-claro" data-descartar>Descartar</button><button class="b b-sm b-rojo" data-guardar>Guardar cambios</button></div></div>
+   <p class="intro">¿Qué quieres cambiar?</p>
+   <div class="acc-g" role="list">
+    <button type="button" class="acc acc-c" data-acc="cerrar" role="listitem"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M9.5 13.5l5 5M14.5 13.5l-5 5"/></svg><b>No trabajo uno o varios días</b><span>Vacaciones, festivos o un día libre</span></button>
+    <button type="button" class="acc acc-m" data-acc="menos" role="listitem"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V12h8.5"/></svg><b>Un día trabajo menos horas</b><span>Solo por la mañana, solo por la tarde o las horas que tú digas</span></button>
+    <button type="button" class="acc acc-h" data-acc="horas" role="listitem"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2M5 5l14 14"/></svg><b>Quitar unas horas sueltas</b><span>Para el médico o un recado. El resto del día sigue igual</span></button>
+    <button type="button" class="acc acc-s" data-acc="semana" role="listitem"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="7" cy="17" r="1.6"/></svg><b>Cambiar mi horario de siempre</b><span>Las horas de cada día de la semana</span></button>
+   </div>
+   <div class="card ed" data-ed hidden></div>
    <div class="g2 g-cal">
     <div class="card">
-     <div class="ch"><h2>Cerrar o cambiar días</h2><div class="nav-s"><button class="b b-sm" data-mes="-1" aria-label="Mes anterior">‹</button><b data-mes-t></b><button class="b b-sm" data-mes="1" aria-label="Mes siguiente">›</button></div></div>
-     <p class="ayuda">Toca un día para cerrarlo o para abrir solo por la mañana, solo por la tarde o a otras horas. Para varios días seguidos, toca el primero y luego el último.</p>
+     <div class="ch"><h2>Así queda tu mes</h2><div class="nav-s"><button class="b b-sm" data-mes="-1" aria-label="Mes anterior">‹</button><b data-mes-t></b><button class="b b-sm" data-mes="1" aria-label="Mes siguiente">›</button></div></div>
+     <div class="ley ley-cal"><span class="l-ab">Abierto normal</span><span class="ley-c">No trabajas</span><span class="ley-e">Menos horas</span><span class="ley-q">Horas quitadas</span></div>
      <div class="cal" data-cal></div>
-     <div class="sel" data-sel hidden></div>
+     <p class="ayuda" style="margin:12px 0 0">Toca cualquier día para cambiarlo.</p>
     </div>
-    <div class="col">
-     <div class="card"><div class="ch"><h2>Próximos cambios</h2></div><ul class="cierres" data-cierres></ul></div>
-     <div class="card"><div class="ch"><h2>Bloquear horas sueltas</h2></div>
-      <p class="ayuda">Para un médico, un recado o una hora que no quieras dar. El resto del día sigue abierto.</p>
-      <label class="fl">Día<input type="date" data-bq-dia></label>
-      <div class="slots" data-bq-slots><p class="vacio">Elige un día.</p></div>
-      <label class="fl" data-bq-motl hidden>Motivo <small>(solo lo ves tú)</small><input data-bq-mot maxlength="60" placeholder="Por ejemplo: médico"></label>
-     </div>
-    </div>
-   </div>
-   <div class="card">
-    <div class="ch"><h2>Horario de cada semana</h2>
-     <label class="int">Citas cada <select data-int><option>15</option><option>20</option><option>30</option><option>45</option><option>60</option></select> min</label></div>
-    <div class="hor" data-hor></div>
+    <div class="card"><div class="ch"><h2>Lo que has cambiado</h2></div><ul class="cierres" data-cierres></ul></div>
    </div>
   </section>
 
@@ -140,5 +134,5 @@
 
 <div class="toast" data-toast role="status" aria-live="polite"></div>
 <script>window.KK_API="https://script.google.com/macros/s/AKfycbxceTsKCOBq0f1Pg_af9gslsN4xPUpsU4sjWmNALSZ4hpuAhJj1g47cHQdxfCi7GgOH/exec";</script>
-<script src="panel.js?v=2"></script>
+<script src="panel.js?v=3"></script>
 </body></html>
