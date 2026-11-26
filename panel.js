@@ -193,7 +193,7 @@ function pintaSel(){
  if(!selB&&uno)h+='<p class="ayuda">¿Son varios días seguidos? Toca ahora el último.</p>';
  if(todoCerr){h+='<div class="sel-b"><button class="b b-negro" data-normal>Volver a abrir '+(uno?'este día':'estos días')+'</button><button class="b b-claro" data-quitasel>Cancelar</button></div>'}
  else{
-  var M=[['cerrar','Cerrar todo el día'],['m','Solo por la mañana'],['t','Solo por la tarde'],['otras','Cierro unas horas']];
+  var M=[['cerrar','Cierro todo el día'],['t','Cierro por la mañana'],['m','Cierro por la tarde'],['otras','Cierro unas horas']];
   h+='<div class="modos" role="radiogroup" aria-label="Qué hacer esos días">'+M.map(function(m){return '<button type="button" role="radio" aria-checked="'+(modo===m[0])+'" class="modo'+(modo===m[0]?' on':'')+'" data-modo="'+m[0]+'">'+m[1]+'</button>'}).join('')+'</div>';
   if(modo==='cerrar'){
    h+='<div class="chips">'+MOTIVOS.map(function(m){return '<button type="button" class="chip'+(m===motSel?' on':'')+'" data-mot="'+m+'">'+m+'</button>'}).join('')+'<input class="chip-in" data-motx maxlength="60" placeholder="Otro motivo" value="'+(MOTIVOS.indexOf(motSel)<0?esc(motSel):'')+'"></div>'+
@@ -205,8 +205,8 @@ function pintaSel(){
      '<div class="tr tr-o">'+otras.map(function(t,j){return '<span class="tm"><span class="tm-l">Cierro de</span><input type="time" step="900" value="'+('0'+t[0]).slice(-5)+'" data-ot="'+j+'-0" aria-label="Cierro desde"><i>a</i><input type="time" step="900" value="'+('0'+t[1]).slice(-5)+'" data-ot="'+j+'-1" aria-label="Cierro hasta">'+(otras.length>1?'<button type="button" data-oq="'+j+'" aria-label="Quitar">×</button>':'')+'</span>'}).join('')+(otras.length<3?'<button type="button" class="b b-sm b-claro" data-om>+ Cerrar otro rato</button>':'')+'</div>'}
    var vistos={};r.forEach(function(d){var k=tramosTxt(nuevoHorario(d));(vistos[k]=vistos[k]||[]).push(d)});
    var ks=Object.keys(vistos);
-   h+='<p class="sel-prev">'+(ks.length===1?(ks[0]==='Cerrado'?(modo==='otras'?'Con eso no queda ninguna hora abierta: el día quedaría cerrado.':'Ese horario no tiene '+(modo==='m'?'mañana':'tarde')+': el día quedaría cerrado.'):'La web dará citas de '+ks[0]+'.'):ks.map(function(k){return '<span>'+vistos[k].map(function(d){return DC[ws(d)]+' '+pd(d).getDate()}).join(', ')+': '+(k==='Cerrado'?'cerrado':'de '+k)+'</span>'}).join(''))+'</p>'+
-    '<div class="sel-b"><button class="b b-negro" data-aplica>'+(modo==='m'?'Guardar solo mañana':modo==='t'?'Guardar solo tarde':'Cerrar esas horas')+'</button>'+(cambiado?'<button class="b b-claro" data-normal>Volver al horario normal</button>':'')+'<button class="b b-claro" data-quitasel>Cancelar</button></div>';
+   h+='<p class="sel-prev">'+(ks.length===1?(ks[0]==='Cerrado'?(modo==='otras'?'Con eso no queda ninguna hora abierta: el día quedaría cerrado.':'Ese día no trabajas por la '+(modo==='m'?'mañana':'tarde')+', así que quedaría cerrado entero.'):'La web dará citas de '+ks[0]+'.'):ks.map(function(k){return '<span>'+vistos[k].map(function(d){return DC[ws(d)]+' '+pd(d).getDate()}).join(', ')+': '+(k==='Cerrado'?'cerrado':'de '+k)+'</span>'}).join(''))+'</p>'+
+    '<div class="sel-b"><button class="b b-negro" data-aplica>'+(modo==='m'?'Cerrar la tarde':modo==='t'?'Cerrar la mañana':'Cerrar esas horas')+'</button>'+(cambiado?'<button class="b b-claro" data-normal>Volver al horario normal</button>':'')+'<button class="b b-claro" data-quitasel>Cancelar</button></div>';
    cs=cs.filter(function(x){return !dentroDe(x.hora,nuevoHorario(x.dia))});
   }
  }
