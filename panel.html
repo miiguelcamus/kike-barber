@@ -1,0 +1,144 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel · Kike barber shop</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#F2EADF">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="panel.css?v=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23141110'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='20' text-anchor='middle' fill='%23F2EADF'%3EK%3C/text%3E%3C/svg%3E">
+</head><body>
+
+<!-- acceso -->
+<section class="login" data-login>
+ <form class="lg-box" data-lform>
+  <div class="lg-logo"><b>KIKE</b><span>barber<br>shop</span></div>
+  <h1>Tu panel</h1>
+  <p>Escribe tu PIN para entrar.</p>
+  <input name="pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="12" aria-label="PIN" placeholder="PIN" required>
+  <p class="lg-err" data-lerr role="alert"></p>
+  <button class="b b-negro" type="submit">Entrar</button>
+  <a class="lg-web" href="index.html">Volver a la web</a>
+ </form>
+</section>
+
+<!-- panel -->
+<div class="app" data-app hidden>
+ <aside class="side">
+  <div class="s-logo"><b>KIKE</b><span>barber<br>shop</span></div>
+  <nav class="tabs" role="tablist" aria-label="Secciones">
+   <button role="tab" data-tab="hoy" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Hoy</button>
+   <button role="tab" data-tab="agenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Agenda</button>
+   <button role="tab" data-tab="disp"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M9 14l6 4M15 14l-6 4"/></svg>Días y horario</button>
+   <button role="tab" data-tab="citas"><svg viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h9"/></svg>Citas</button>
+   <button role="tab" data-tab="stats"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>Estadísticas</button>
+  </nav>
+  <div class="s-pie">
+   <a href="reservar.html" target="_blank" rel="noopener">Ver la web de reservas</a>
+   <button type="button" data-salir>Salir</button>
+  </div>
+ </aside>
+
+ <main class="main">
+  <header class="top">
+   <div><p class="t-hola">Hola, Kike</p><h1 data-fecha>Hoy</h1></div>
+   <div class="t-acc"><span class="sync" data-sync></span><button class="b b-rojo" type="button" data-nueva><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Nueva cita</button></div>
+  </header>
+
+  <!-- HOY -->
+  <section class="tab on" data-p="hoy">
+   <div class="kpis" data-kpis></div>
+   <div class="g2">
+    <div class="card"><div class="ch"><h2>Citas de hoy</h2><span class="ch-s" data-hoy-n></span></div><ul class="lista" data-hoy></ul></div>
+    <div class="card"><div class="ch"><h2>Próximos días</h2></div><div data-prox></div></div>
+   </div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="tab" data-p="agenda">
+   <div class="card">
+    <div class="ch"><h2 data-sem-t>Esta semana</h2>
+     <div class="nav-s"><button class="b b-sm" data-sem="-1" aria-label="Semana anterior">‹</button><button class="b b-sm" data-sem="0">Hoy</button><button class="b b-sm" data-sem="1" aria-label="Semana siguiente">›</button></div></div>
+    <div class="ley"><span class="e-Pendiente">Pendiente</span><span class="e-Confirmada">Confirmada</span><span class="e-Hecha">Hecha</span><span class="ley-c">Cerrado</span><span class="ley-b">Hora bloqueada</span></div>
+    <div class="ag" data-ag></div>
+    <p class="nota">Toca una cita para verla o cambiarla. Toca un hueco libre para apuntar una cita.</p>
+   </div>
+  </section>
+
+  <!-- DÍAS Y HORARIO -->
+  <section class="tab" data-p="disp">
+   <div class="guardar" data-gbar hidden><span>Tienes cambios sin guardar.</span><div><button class="b b-sm b-claro" data-descartar>Descartar</button><button class="b b-sm b-rojo" data-guardar>Guardar cambios</button></div></div>
+   <div class="g2 g-cal">
+    <div class="card">
+     <div class="ch"><h2>Cerrar días</h2><div class="nav-s"><button class="b b-sm" data-mes="-1" aria-label="Mes anterior">‹</button><b data-mes-t></b><button class="b b-sm" data-mes="1" aria-label="Mes siguiente">›</button></div></div>
+     <p class="ayuda">Toca un día para cerrarlo. Para unas vacaciones, toca el primer día y luego el último.</p>
+     <div class="cal" data-cal></div>
+     <div class="sel" data-sel hidden></div>
+    </div>
+    <div class="col">
+     <div class="card"><div class="ch"><h2>Próximos cierres</h2></div><ul class="cierres" data-cierres></ul></div>
+     <div class="card"><div class="ch"><h2>Bloquear horas sueltas</h2></div>
+      <p class="ayuda">Para un médico, un recado o una hora que no quieras dar. El resto del día sigue abierto.</p>
+      <label class="fl">Día<input type="date" data-bq-dia></label>
+      <div class="slots" data-bq-slots><p class="vacio">Elige un día.</p></div>
+      <label class="fl" data-bq-motl hidden>Motivo <small>(solo lo ves tú)</small><input data-bq-mot maxlength="60" placeholder="Por ejemplo: médico"></label>
+     </div>
+    </div>
+   </div>
+   <div class="card">
+    <div class="ch"><h2>Horario de cada semana</h2>
+     <label class="int">Citas cada <select data-int><option>15</option><option>20</option><option>30</option><option>45</option><option>60</option></select> min</label></div>
+    <div class="hor" data-hor></div>
+   </div>
+  </section>
+
+  <!-- CITAS -->
+  <section class="tab" data-p="citas">
+   <div class="card">
+    <div class="ch ch-f"><h2>Todas las citas</h2>
+     <div class="fil">
+      <input type="search" data-bus placeholder="Buscar nombre, teléfono o servicio" aria-label="Buscar">
+      <select data-fest aria-label="Estado"><option value="">Todos los estados</option></select>
+      <select data-fcuando aria-label="Cuándo"><option value="prox">Próximas</option><option value="pas">Pasadas</option><option value="todas">Todas</option></select>
+      <button class="b b-sm" data-csv>Descargar</button>
+     </div></div>
+    <div class="tabla-w"><table class="tabla"><thead><tr><th>Día</th><th>Hora</th><th>Cliente</th><th>Servicio</th><th>Estado</th><th>Origen</th></tr></thead><tbody data-tcitas></tbody></table></div>
+    <p class="nota" data-tnota></p>
+   </div>
+  </section>
+
+  <!-- ESTADÍSTICAS -->
+  <section class="tab" data-p="stats">
+   <div class="kpis" data-skpis></div>
+   <div class="g2">
+    <div class="card"><div class="ch"><h2>Citas por semana</h2><span class="ch-s">Últimas 8 semanas</span></div><div class="barras" data-sem-bar></div></div>
+    <div class="card"><div class="ch"><h2>Servicios más pedidos</h2></div><ul class="mot" data-serv></ul></div>
+    <div class="card"><div class="ch"><h2>Horas con más citas</h2></div><div class="horas" data-horas></div></div>
+    <div class="card"><div class="ch"><h2>Clientes que más repiten</h2></div><ul class="rep" data-rep></ul></div>
+   </div>
+   <p class="nota">Se calcula con las citas guardadas, sin contar las canceladas. Los importes salen de los precios de cada servicio y son orientativos.</p>
+  </section>
+ </main>
+</div>
+
+<!-- cita: nueva o editar -->
+<dialog class="dlg" data-dlg aria-labelledby="dlg-t">
+ <form data-cform>
+  <div class="d-h"><h2 id="dlg-t">Nueva cita</h2><button type="button" class="x" data-cerrar aria-label="Cerrar">×</button></div>
+  <div class="d-estado" data-destado hidden></div>
+  <div class="d-g">
+   <label>Cliente<input name="nombre" required maxlength="60" autocomplete="off" placeholder="Nombre"></label>
+   <label>Teléfono<input name="telefono" type="tel" inputmode="tel" maxlength="30" autocomplete="off" placeholder="600 000 000"></label>
+   <label class="full">Servicio<select name="servicio"></select></label>
+   <label>Día<input name="dia" type="date" required></label>
+   <label>Hora<select name="hora" required></select></label>
+   <label class="full">Nota <small>(opcional)</small><textarea name="nota" rows="2" maxlength="300" placeholder="Por ejemplo: degradado bajo"></textarea></label>
+   <label class="chk full" data-dconf><input type="checkbox" name="confirmada" checked> Marcar como confirmada</label>
+   <label class="chk full"><input type="checkbox" name="forzar"> Apuntarla aunque ese día o esa hora estén cerrados</label>
+  </div>
+  <p class="d-err" data-derr role="alert"></p>
+  <div class="d-b"><a class="b b-claro d-wa" data-dwa target="_blank" rel="noopener" hidden>WhatsApp</a><button type="button" class="b b-claro" data-cerrar>Cancelar</button><button type="submit" class="b b-negro" data-dok>Guardar cita</button></div>
+ </form>
+</dialog>
+
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<script>window.KK_API="https://script.google.com/macros/s/AKfycbxceTsKCOBq0f1Pg_af9gslsN4xPUpsU4sjWmNALSZ4hpuAhJj1g47cHQdxfCi7GgOH/exec";</script>
+<script src="panel.js?v=1"></script>
+</body></html>
