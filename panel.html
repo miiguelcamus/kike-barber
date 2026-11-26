@@ -2,7 +2,7 @@
 <title>Panel · Kike barber shop</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#F2EADF">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="panel.css?v=1">
+<link rel="stylesheet" href="panel.css?v=2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23141110'/%3E%3Ctext x='16' y='24' font-family='Arial Black' font-size='20' text-anchor='middle' fill='%23F2EADF'%3EK%3C/text%3E%3C/svg%3E">
 </head><body>
 
@@ -67,13 +67,13 @@
    <div class="guardar" data-gbar hidden><span>Tienes cambios sin guardar.</span><div><button class="b b-sm b-claro" data-descartar>Descartar</button><button class="b b-sm b-rojo" data-guardar>Guardar cambios</button></div></div>
    <div class="g2 g-cal">
     <div class="card">
-     <div class="ch"><h2>Cerrar días</h2><div class="nav-s"><button class="b b-sm" data-mes="-1" aria-label="Mes anterior">‹</button><b data-mes-t></b><button class="b b-sm" data-mes="1" aria-label="Mes siguiente">›</button></div></div>
-     <p class="ayuda">Toca un día para cerrarlo. Para unas vacaciones, toca el primer día y luego el último.</p>
+     <div class="ch"><h2>Cerrar o cambiar días</h2><div class="nav-s"><button class="b b-sm" data-mes="-1" aria-label="Mes anterior">‹</button><b data-mes-t></b><button class="b b-sm" data-mes="1" aria-label="Mes siguiente">›</button></div></div>
+     <p class="ayuda">Toca un día para cerrarlo o para abrir solo por la mañana, solo por la tarde o a otras horas. Para varios días seguidos, toca el primero y luego el último.</p>
      <div class="cal" data-cal></div>
      <div class="sel" data-sel hidden></div>
     </div>
     <div class="col">
-     <div class="card"><div class="ch"><h2>Próximos cierres</h2></div><ul class="cierres" data-cierres></ul></div>
+     <div class="card"><div class="ch"><h2>Próximos cambios</h2></div><ul class="cierres" data-cierres></ul></div>
      <div class="card"><div class="ch"><h2>Bloquear horas sueltas</h2></div>
       <p class="ayuda">Para un médico, un recado o una hora que no quieras dar. El resto del día sigue abierto.</p>
       <label class="fl">Día<input type="date" data-bq-dia></label>
@@ -140,5 +140,5 @@
 
 <div class="toast" data-toast role="status" aria-live="polite"></div>
 <script>window.KK_API="https://script.google.com/macros/s/AKfycbxceTsKCOBq0f1Pg_af9gslsN4xPUpsU4sjWmNALSZ4hpuAhJj1g47cHQdxfCi7GgOH/exec";</script>
-<script src="panel.js?v=1"></script>
+<script src="panel.js?v=2"></script>
 </body></html>

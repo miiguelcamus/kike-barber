@@ -14,7 +14,8 @@ var NOM=['el lunes','el martes','el miércoles','el jueves','el viernes','el sá
 function ymd(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
 function pdia(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2],12)}
 function cierreDe(dia){var c=(window.KK_DISP&&KK_DISP.cierres)||[];for(var i=0;i<c.length;i++)if(dia>=c[i].desde&&dia<=c[i].hasta)return c[i];return null}
-function rangosDe(d){var dia=ymd(d);if(cierreDe(dia))return [];return H[(d.getDay()+6)%7]||[]}
+function espDe(dia){var c=(window.KK_DISP&&KK_DISP.especiales)||[];for(var i=0;i<c.length;i++)if(dia>=c[i].desde&&dia<=c[i].hasta)return c[i];return null}
+function rangosDe(d){var dia=ymd(d);if(cierreDe(dia))return [];var e=espDe(dia);if(e)return e.tramos;return H[(d.getDay()+6)%7]||[]}
 function estadoAhora(){
  var now=new Date(),m=now.getHours()*60+now.getMinutes(),txt=null,open=false,ci=cierreDe(ymd(now));
  rangosDe(now).forEach(function(r){if(m>=mins(r[0])&&m<mins(r[1])){open=true;txt='Abierto ahora · hasta las '+r[1]}});
@@ -25,9 +26,13 @@ function estadoAhora(){
 }
 function avisoCierre(){
  var c=((window.KK_DISP&&KK_DISP.cierres)||[]).slice().sort(function(a,b){return a.desde<b.desde?-1:1}),hoy=ymd(new Date()),lim=ymd(new Date(Date.now()+21*864e5));
- var x=c.filter(function(x){return x.desde<=lim&&x.hasta>=hoy})[0],el=$('.aviso-c');if(!x){if(el)el.remove();return}
+ var x=c.filter(function(x){return x.desde<=lim&&x.hasta>=hoy})[0],el=$('.aviso-c');
+ var lim7=ymd(new Date(Date.now()+7*864e5)),es=((window.KK_DISP&&KK_DISP.especiales)||[]).filter(function(e){return e.desde<=lim7&&e.hasta>=hoy&&e.tramos.length}).sort(function(a,b){return a.desde<b.desde?-1:1})[0];
+ if(!x&&es){x={desde:es.desde,hasta:es.hasta,motivo:'',esp:es.tramos}}
+ if(!x){if(el)el.remove();return}
  var f=function(s){var d=pdia(s);return d.getDate()+' de '+['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][d.getMonth()]};
  var t=x.desde===x.hasta?'El '+f(x.desde)+' está cerrado':(x.desde<=hoy?'Cerrado hasta el '+f(x.hasta)+' incluido':'Del '+f(x.desde)+' al '+f(x.hasta)+' está cerrado');
+ if(x.esp){var hs=x.esp.map(function(r){return 'de '+r[0]+' a '+r[1]}).join(' y ');t=(x.desde===x.hasta?(x.desde===hoy?'Hoy':'El '+f(x.desde)):'Del '+f(x.desde)+' al '+f(x.hasta))+' solo se abre '+hs}
  if(!el){el=document.createElement('div');el.className='aviso-c';el.setAttribute('role','status');var mn=$('main');mn.insertBefore(el,mn.firstChild)}
  el.innerHTML='<div class="wrap"><b></b><span></span></div>';el.querySelector('b').textContent=t;el.querySelector('span').textContent=x.motivo?'('+x.motivo.toLowerCase()+')':'';
 }

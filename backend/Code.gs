@@ -79,12 +79,25 @@ function cerrado_(c, dia) {
     var x = c.cierres[i];
     if (dia >= x.desde && dia <= x.hasta) return x.motivo || 'Cerrado';
   }
-  return (c.horario[diaSemana_(dia)] || []).length ? '' : 'Cerrado ese día';
+  return horarioDe_(c, dia).length ? '' : 'Cerrado ese día';
+}
+
+function espDe_(c, dia) {
+  var l = c.especiales || [];
+  for (var i = 0; i < l.length; i++) if (dia >= l[i].desde && dia <= l[i].hasta) return l[i];
+  return null;
+}
+
+// horario real de un día: cerrado, horario especial o el de cada semana
+function horarioDe_(c, dia) {
+  for (var i = 0; i < (c.cierres || []).length; i++) if (dia >= c.cierres[i].desde && dia <= c.cierres[i].hasta) return [];
+  var e = espDe_(c, dia);
+  return e ? e.tramos : (c.horario[diaSemana_(dia)] || []);
 }
 
 function horaValida_(c, dia, hora) {
   var m = mins_(hora), paso = c.intervalo || 30;
-  return (c.horario[diaSemana_(dia)] || []).some(function (r) { return m >= mins_(r[0]) && m + paso <= mins_(r[1]) && (m - mins_(r[0])) % paso === 0; });
+  return horarioDe_(c, dia).some(function (r) { return m >= mins_(r[0]) && m + paso <= mins_(r[1]) && (m - mins_(r[0])) % paso === 0; });
 }
 
 function bloqueada_(c, dia, hora) {
@@ -107,6 +120,7 @@ function doGet(e) {
     return json_({
       ok: true, hoy: hoy, horario: c.horario, intervalo: c.intervalo || 30, maxDias: MAX_DIAS,
       cierres: (c.cierres || []).filter(function (x) { return x.hasta >= hoy; }).map(function (x) { return { desde: x.desde, hasta: x.hasta, motivo: x.motivo }; }),
+      especiales: (c.especiales || []).filter(function (x) { return x.hasta >= hoy; }).map(function (x) { return { desde: x.desde, hasta: x.hasta, tramos: x.tramos }; }),
       bloqueos: (c.bloqueos || []).filter(function (x) { return x.dia >= hoy; }).map(function (x) { return { dia: x.dia, horas: x.horas }; }),
       ocupadas: ocupadas_(hoy)
     });
@@ -155,7 +169,9 @@ function guardaCfg_(n) {
     .map(function (x) { return { id: limpia_(x.id, 20) || Utilities.getUuid().slice(0, 8), desde: x.desde, hasta: x.hasta, motivo: limpia_(x.motivo, 60) || 'Cerrado' }; }).slice(0, 200);
   var bloqueos = (n.bloqueos || []).filter(function (x) { return esFecha_(x.dia) && (x.horas || []).length; })
     .map(function (x) { return { id: limpia_(x.id, 20) || Utilities.getUuid().slice(0, 8), dia: x.dia, horas: x.horas.filter(esHora_).slice(0, 40), motivo: limpia_(x.motivo, 60) }; }).slice(0, 300);
-  var c = { horario: horario, cierres: cierres, bloqueos: bloqueos, intervalo: [15, 20, 30, 45, 60].indexOf(+n.intervalo) > -1 ? +n.intervalo : 30 };
+  var especiales = (n.especiales || []).filter(function (x) { return esFecha_(x.desde) && esFecha_(x.hasta) && x.desde <= x.hasta; })
+    .map(function (x) { return { id: limpia_(x.id, 24) || Utilities.getUuid().slice(0, 8), desde: x.desde, hasta: x.hasta, tramos: (x.tramos || []).filter(function (r) { return esHora_(r[0]) && esHora_(r[1]) && mins_(r[0]) < mins_(r[1]); }).slice(0, 3).map(function (r) { return [r[0], r[1]]; }) }; }).slice(0, 400);
+  var c = { horario: horario, cierres: cierres, especiales: especiales, bloqueos: bloqueos, intervalo: [15, 20, 30, 45, 60].indexOf(+n.intervalo) > -1 ? +n.intervalo : 30 };
   props_().setProperty('CFG', JSON.stringify(c));
   return { ok: true, cfg: c };
 }
